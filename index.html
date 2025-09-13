@@ -1,0 +1,113 @@
+<test2>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LegendScrims League</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+    h1 { text-align: center; }
+    nav { text-align: center; margin-bottom: 20px; }
+    nav button { margin: 0 10px; border: none; background: #1976d2; color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
+    nav button:hover { background: #115293; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 0 5px rgba(0,0,0,0.1); background: white; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #e3f2fd; cursor: pointer; }
+    tr:nth-child(even) { background-color: #f5f5f5; }
+    img.logo { width: 40px; height: 40px; object-fit: contain; }
+    .section { display: none; }
+    .active { display: block; }
+  </style>
+</head>
+<body>
+
+<h1>LegendScrims League</h1>
+
+<nav>
+  <button onclick="showSection('euTeams')">Team Ranking EU</button>
+  <button onclick="showSection('naTeams')">Team Ranking NA</button>
+  <button onclick="showSection('euPlayers')">Players Stats EU</button>
+  <button onclick="showSection('naPlayers')">Players Stats NA</button>
+</nav>
+
+<!-- SECTIONS -->
+<div id="euTeams" class="section active"></div>
+<div id="naTeams" class="section"></div>
+<div id="euPlayers" class="section"></div>
+<div id="naPlayers" class="section"></div>
+
+<script>
+// Données simulées
+const dataSets = {
+  euTeams: [
+    {PLACE: '1', LOGO: 'https://via.placeholder.com/40', TEAMS: 'EU Team A', POINTS: '120'},
+    {PLACE: '2', LOGO: 'https://via.placeholder.com/40', TEAMS: 'EU Team B', POINTS: '110'},
+    {PLACE: '3', LOGO: 'https://via.placeholder.com/40', TEAMS: 'EU Team C', POINTS: '95'}
+  ],
+  naTeams: [
+    {PLACE: '1', LOGO: 'https://via.placeholder.com/40', TEAMS: 'NA Team X', POINTS: '130'},
+    {PLACE: '2', LOGO: 'https://via.placeholder.com/40', TEAMS: 'NA Team Y', POINTS: '115'},
+    {PLACE: '3', LOGO: 'https://via.placeholder.com/40', TEAMS: 'NA Team Z', POINTS: '100'}
+  ],
+  euPlayers: [
+    {RANK: '1', PLAYER: 'EU Player A', RATING: '2500', TEAM: 'EU Team A'},
+    {RANK: '2', PLAYER: 'EU Player B', RATING: '2400', TEAM: 'EU Team B'},
+    {RANK: '3', PLAYER: 'EU Player C', RATING: '2300', TEAM: 'EU Team C'}
+  ],
+  naPlayers: [
+    {RANK: '1', PLAYER: 'NA Player X', RATING: '2600', TEAM: 'NA Team X'},
+    {RANK: '2', PLAYER: 'NA Player Y', RATING: '2450', TEAM: 'NA Team Y'},
+    {RANK: '3', PLAYER: 'NA Player Z', RATING: '2350', TEAM: 'NA Team Z'}
+  ]
+};
+
+// Fonction pour afficher/masquer les sections
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Fonction pour créer un tableau dynamiquement
+function renderTable(containerId, data) {
+  const container = document.getElementById(containerId);
+  const headers = Object.keys(data[0]);
+
+  let table = '<table><thead><tr>';
+  headers.forEach((h, idx) => table += `<th onclick="sortTable('${containerId}', ${idx})">${h}</th>`);
+  table += '</tr></thead><tbody>';
+
+  data.forEach(row => {
+    table += '<tr>';
+    headers.forEach(h => {
+      if (h.toLowerCase() === 'logo') {
+        table += `<td><img src="${row[h]}" class="logo"></td>`;
+      } else {
+        table += `<td>${row[h]}</td>`;
+      }
+    });
+    table += '</tr>';
+  });
+
+  table += '</tbody></table>';
+  container.innerHTML = table;
+}
+
+// Fonction de tri
+function sortTable(containerId, colIdx) {
+  const data = dataSets[containerId];
+  const header = Object.keys(data[0])[colIdx];
+  data.sort((a,b) => {
+    let valA = a[header], valB = b[header];
+    if(!isNaN(valA) && !isNaN(valB)) return Number(valA) - Number(valB);
+    return valA.toString().localeCompare(valB.toString());
+  });
+  renderTable(containerId, data);
+}
+
+// Rendu initial
+for (let key in dataSets) {
+  renderTable(key, dataSets[key]);
+}
+</script>
+
+</body>
+</html>
