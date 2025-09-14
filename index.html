@@ -1,8 +1,8 @@
-<test2>
+<test2 html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LegendScrims League</title>
+  <title>Esports Rankings</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
     h1 { text-align: center; }
@@ -13,19 +13,19 @@
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #e3f2fd; cursor: pointer; }
     tr:nth-child(even) { background-color: #f5f5f5; }
-    img.logo { width: 40px; height: 40px; object-fit: contain; }
+    img.square { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; }
     .section { display: none; }
     .active { display: block; }
   </style>
 </head>
 <body>
 
-<h1>LegendScrims League</h1>
+<h1>Esports Rankings</h1>
 
 <nav>
   <button onclick="showSection('euTeams')">Team Ranking EU</button>
-  <button onclick="showSection('euPlayers')">Players Stats EU</button>
   <button onclick="showSection('naTeams')">Team Ranking NA</button>
+  <button onclick="showSection('euPlayers')">Players Stats EU</button>
   <button onclick="showSection('naPlayers')">Players Stats NA</button>
 </nav>
 
@@ -39,7 +39,7 @@
 // Données simulées
 const dataSets = {
   euTeams: [
-    {PLACE: '1', LOGO: 'https://media.discordapp.net/attachments/1301937945833377823/1415760841483223092/image.png?ex=68c65bc8&is=68c50a48&hm=176cc8cfb508f831aaacffdc3ebbf52d58bef954b433210468d00ab9ef4aad39&=&format=webp&quality=lossless', TEAMS: 'EU Team A', POINTS: '120'},
+    {PLACE: '1', LOGO: 'https://media.discordapp.net/attachments/1414485241938317475/1414485390789840896/file_0000000004c061fd9015e51fba298e6b.png?ex=68c7a6ad&is=68c6552d&hm=85f28867c3c7db6c1601c753b0b34e9ec88cebf4ca31e28ea1ae4f2470662e31&=&format=webp&quality=lossless&width=856&height=856', TEAMS: 'TAKAR 2', POINTS: '120'},
     {PLACE: '2', LOGO: 'https://via.placeholder.com/40', TEAMS: 'EU Team B', POINTS: '110'},
     {PLACE: '3', LOGO: 'https://via.placeholder.com/40', TEAMS: 'EU Team C', POINTS: '95'}
   ],
@@ -49,14 +49,14 @@ const dataSets = {
     {PLACE: '3', LOGO: 'https://via.placeholder.com/40', TEAMS: 'NA Team Z', POINTS: '100'}
   ],
   euPlayers: [
-    {RANK: '1', PLAYER: 'EU Player A', RATING: '2500', TEAM: 'EU Team A'},
-    {RANK: '2', PLAYER: 'EU Player B', RATING: '2400', TEAM: 'EU Team B'},
-    {RANK: '3', PLAYER: 'EU Player C', RATING: '2300', TEAM: 'EU Team C'}
+    {RANK: '1', COUNTRY: 'https://flagcdn.com/w40/fr.png', PLAYER: 'Narzera', RATING: '41.35', TEAM: 'https://media.discordapp.net/attachments/1414485241938317475/1414485390789840896/file_0000000004c061fd9015e51fba298e6b.png?ex=68c7a6ad&is=68c6552d&hm=85f28867c3c7db6c1601c753b0b34e9ec88cebf4ca31e28ea1ae4f2470662e31&=&format=webp&quality=lossless&width=856&height=856'},
+    {RANK: '2', COUNTRY: 'https://flagcdn.com/w40/de.png', PLAYER: 'EU Player B', RATING: '2400', TEAM: 'EU Team B'},
+    {RANK: '3', COUNTRY: 'https://flagcdn.com/w40/es.png', PLAYER: 'EU Player C', RATING: '2300', TEAM: 'EU Team C'}
   ],
   naPlayers: [
-    {RANK: '1', PLAYER: 'NA Player X', RATING: '2600', TEAM: 'NA Team X'},
-    {RANK: '2', PLAYER: 'NA Player Y', RATING: '2450', TEAM: 'NA Team Y'},
-    {RANK: '3', PLAYER: 'NA Player Z', RATING: '2350', TEAM: 'NA Team Z'}
+    {RANK: '1', COUNTRY: 'https://flagcdn.com/w40/us.png', PLAYER: 'NA Player X', RATING: '2600', TEAM: 'NA Team X'},
+    {RANK: '2', COUNTRY: 'https://flagcdn.com/w40/ca.png', PLAYER: 'NA Player Y', RATING: '2450', TEAM: 'NA Team Y'},
+    {RANK: '3', COUNTRY: 'https://flagcdn.com/w40/mx.png', PLAYER: 'NA Player Z', RATING: '2350', TEAM: 'NA Team Z'}
   ]
 };
 
@@ -78,8 +78,8 @@ function renderTable(containerId, data) {
   data.forEach(row => {
     table += '<tr>';
     headers.forEach(h => {
-      if (h.toLowerCase() === 'logo') {
-        table += `<td><img src="${row[h]}" class="logo"></td>`;
+      if (h.toLowerCase() === 'logo' || h.toLowerCase() === 'country') {
+        table += `<td><img src="${row[h]}" class="square"></td>`;
       } else {
         table += `<td>${row[h]}</td>`;
       }
